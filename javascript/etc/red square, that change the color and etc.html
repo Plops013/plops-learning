@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <button onclick="criaQuadrado()">Cria Quadrado Vermelho</button>
+
+  <input type="text" name="nome" id="nome">
+  <button onClick="adicionar()">Adicionar</button>
+  <div class="all">
+    <ul id='lista'>
+    </ul>
+  </div>
+  <script>
+    var nomes = ["Diego", "Gabriel", "Lucas"];
+    var novaLista = document.getElementById('lista');
+
+    function adicionar() {
+      var handleNome = document.getElementById('nome');
+      var nomeTexto = document.createTextNode(handleNome.value);
+      novoItem = document.createElement('li');
+      novoItem.appendChild(nomeTexto);
+      novaLista.appendChild(novoItem);
+      handleNome.value = "";
+    }
+
+    function criarLista(texto) {
+      novaLista = document.getElementById('lista');
+      texto.forEach(nome => {
+        console.log(nome);
+        console.log(novaLista);
+        var nomeTexto = document.createTextNode(nome);
+        novoItem = document.createElement('li');
+        novoItem.appendChild(nomeTexto);
+        novaLista.appendChild(novoItem);
+      });
+    }
+
+    function criaQuadrado() {
+      var containerElement = document.querySelector("body");
+      var redBox = document.createElement("div");
+      redBox.style.backgroundColor = "red";
+
+      redBox.addEventListener("mouseover", changeColor)
+
+      redBox.style.width = "100px";
+      redBox.style.height = "100px";
+      containerElement.appendChild(redBox);
+    }
+
+    function changeColor(event) {
+      redBox = event.currentTarget;
+      redBox.style.backgroundColor = getRandomColor();
+    }
+
+    function getRandomColor() {
+      var letters = "0123456789ABCDEF";
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+  </script>
+</body>
+
+</html>
