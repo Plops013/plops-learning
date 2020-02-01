@@ -6,9 +6,12 @@ var todos = [
   'Fazer Café',
   'Fazer Almoço',
   'Comer Pão'
-]
+];
 
+console.log(listElement);
 function renderTodos(){
+  listElement.innerHTML = "";
+  console.log(listElement);
   for(todo of todos){
     var todoElement = document.createElement('li');
     var todoText = document.createTextNode(todo);
@@ -16,9 +19,18 @@ function renderTodos(){
     todoElement.appendChild(todoText);
     listElement.appendChild(todoElement);
   }
+  console.log(listElement);
 }
 
 renderTodos();
+function addTodo(){
+  var todoText = inputElement.value;
+  todos.push(todoText);
+  inputElement.value = "";
+  renderTodos();
+
+}
+
 /*
   Minha versão sem delete,
 
