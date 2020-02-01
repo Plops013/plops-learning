@@ -32,7 +32,7 @@ var minhaPromise = function() {
 
 axios.get('https://api.github.com/users/plops013')
   .then(function (response) {
-    console.log(response.data);
+    console.log(response.data );
     var { login } = response.data;
     console.log(login);
   })
