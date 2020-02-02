@@ -1,0 +1,15 @@
+html{
+  font-family: sans-serif;
+}
+
+h1{
+  color: #303030;
+}
+
+span#seguidor{
+  color: green;
+}
+
+span#safado{
+  color: red;
+}
