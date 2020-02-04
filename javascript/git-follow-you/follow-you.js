@@ -4,11 +4,10 @@ const listElement = document.querySelector("#app ul");
 function quemSigo(username) {
   return fetch(`https://api.github.com/users/${username}/following`);
 }
-function quemSegue(username) {
+function quemMeSegue(username) {
   return fetch(`https://api.github.com/users/${username}/followers`);
 }
-
-function printaLista(value, safado) {
+function printarLista(value, safado) {
   const item = document.createElement("li");
   let texto = document.createTextNode(value);
   item.appendChild(texto);
@@ -23,20 +22,19 @@ function printaLista(value, safado) {
 
   listElement.appendChild(item);
 }
-
-const limparLista = () => {
+function limparLista() {
   listElement.innerHTML = "";
 };
 
 async function verificaCombinacao() {
   const user = inputElement.value;
+  
   limparLista();
-
-  printaLista("carregando..");
+  printarLista("carregando..");
 
   try {
     const sigoArray = await quemSigo(user).then(data => data.json());
-    const segueArray = await quemSegue(user).then(data => data.json());
+    const segueArray = await quemMeSegue(user).then(data => data.json());
 
     limparLista();
     let safados = false;
@@ -47,16 +45,16 @@ async function verificaCombinacao() {
           break;
         } else if (i == segueArray.length - 1) {
           safados = true;
-          printaLista(sigo.login, " não te segue");
+          printarLista(sigo.login, " não te segue");
         }
       }
     }
     if (!safados) {
-      printaLista(
+      printarLista(
         "Ou você não segue ninguem, ou todo mundo te segue de volta :D"
       );
     }
   } catch (error) {
-    printaLista("", "O imbecil não existe");
+    printarLista("", "O imbecil não existe");
   }
 }
