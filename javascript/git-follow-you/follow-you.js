@@ -15,7 +15,7 @@ function printaLista(value, safado) {
 
   if (safado) {
     const span = document.createElement("span");
-    const spanText = document.createTextNode(" não te segue");
+    const spanText = document.createTextNode(safado);
     span.setAttribute("id", "safado");
     span.appendChild(spanText);
     item.appendChild(span);
@@ -47,7 +47,7 @@ async function verificaCombinacao() {
           break;
         } else if (i == segueArray.length - 1) {
           safados = true;
-          printaLista(sigo.login, true);
+          printaLista(sigo.login, " não te segue");
         }
       }
     }
@@ -57,6 +57,6 @@ async function verificaCombinacao() {
       );
     }
   } catch (error) {
-    printaLista(error);
+    printaLista("", "O imbecil não existe");
   }
 }
