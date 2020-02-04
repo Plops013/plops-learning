@@ -1,76 +1,56 @@
 const inputElement = document.getElementById('user');
 const listElement = document.querySelector("#app ul");
 
-//Função pegar array do git 
 function quemSigo(username) {
   return fetch(`https://api.github.com/users/${username}/following`);
 }
-
 function quemSegue(username) {
   return fetch(`https://api.github.com/users/${username}/followers`);
 }
 
-//ainda nao acabado
+function printaLista(value, safado){
+  const item = document.createElement('li');
+  let texto = document.createTextNode(value);
+  item.appendChild(texto);
+
+  if (safado){
+  const span = document.createElement('span');
+  const spanText = document.createTextNode(" não te segue");
+  span.setAttribute('id', 'safado');
+  span.appendChild(spanText);
+  item.appendChild(span);
+  }
+
+  listElement.appendChild(item);
+};
+
 async function verificaCombinacao() {
+  const user = inputElement.value;
   listElement.innerHTML = "";
-
-  loading = document.createElement('li');
-  loadingText = document.createTextNode("carregando...");
-  loading.appendChild(loadingText);
-  listElement.appendChild(loading);
-
-  var user = inputElement.value;
+  
+  printaLista("carregando..");
 
   try {
-    const sigoReq = await quemSigo(user);
-    const sigoArray = await sigoReq.json();
-    const segueReq = await quemSegue(user);
-    const segueArray = await segueReq.json();
+    const sigoArray = await quemSigo(user).then(data => data.json());
+    const segueArray = await quemSegue(user).then(data => data.json());
+
     listElement.innerHTML = "";
-    var safados = [];
-    var beleza = [];
+    let safados = [];
+
     for (sigo of sigoArray) {
-      for (var i = 0; i < segueArray.length; i++) {
+      for (let i = 0; i < segueArray.length; i++) {
         if (sigo.login === segueArray[i].login) {
-          beleza.push(sigo);
-
-          //var itemElement = document.createElement('li');
-          //var okText = document.createTextNode(sigo.login);
-          //itemElement.appendChild(okText);
-          //listElement.appendChild(itemElement);
-
           break;
         } else if (i == segueArray.length - 1) {
-
           safados.push(sigo);
-
-          var itemElement = document.createElement('li');
-          var alert = document.createElement('span');
-          alert.setAttribute('id', 'safado');
-
-          var safadoSpan = document.createTextNode(" Não te segue");
-          alert.appendChild(safadoSpan);
-
-          var safadoText = document.createTextNode(sigo.login);
-
-          itemElement.appendChild(safadoText);
-          itemElement.appendChild(alert);
-          listElement.appendChild(itemElement);
-
+          printaLista(sigo.login, true);
         }
       }
     }
     if (safados.length === 0) {
-      var itemElement = document.createElement('li');
-      var surpresaText = document.createTextNode("Ou você não segue ninguem, ou todo mundo te segue de volta :D");
-      itemElement.appendChild(surpresaText);
-      listElement.appendChild(itemElement);
+      printaLista("Ou você não segue ninguem, ou todo mundo te segue de volta :D");
     }
   } catch (error) {
-    erroItem = document.createElement('li');
-    erroText = document.createTextNode("Usuario nao encontrado");
-    erroItem.appendChild(erroText);
-    listElement.appendChild(erroItem);
-
+    printaLista(error);
   }
 }
