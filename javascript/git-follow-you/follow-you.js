@@ -55,6 +55,30 @@ async function verificaCombinacao() {
       );
     }
   } catch (error) {
-    printarLista("", "O imbecil não existe");
+    printarLista("", "Nome de usuário não existe");
   }
 }
+
+const isInLinecense = await Database.select([
+  'L.id',
+  'L.user_id',
+  'L.created_at',
+  'L.ends_in',
+  'L.authorization_id',
+  'U.id as user_id',
+  'U.username as user_name'
+])
+  .from('licenses as L')
+  .innerJoin('user as U', 'L.user_id', '=', 'user_id')
+  .where({ username });
+
+  const isInLinecense = await Database.select([
+    'U.id',
+    'U.username',
+    'L.id as level_id',
+    'L.name as level_name',
+    'L.color as level_color'
+  ])
+    .from('users as U')
+    .innerJoin('levels as L', 'L.id', '=', 'U.level_id')
+    .where({ username });
